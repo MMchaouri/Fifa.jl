@@ -23,6 +23,11 @@ data = load_data("data/players_22.csv")
 # ╔═╡ aa000002-0002-0002-0002-000000000002
 terrain = Terrain(90, 120, 16)
 
+# ╔═╡ bb000001-0001-0001-0001-000000000001
+begin
+    cluster_labels, archetype_names = cluster_players(data)
+end
+
 # ╔═╡ 1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
 md" Formation équipe 1 :  $(@bind form1_input Select([0, 442, 433, 4231, 222, 111], default=442))"
 
@@ -165,10 +170,35 @@ md" Score équipe 1: $score1"
 # ╔═╡ d94ddfbf-da6e-4d8f-b886-01bb9947163f
 md" Score équipe 2: $score2"
 
+# ╔═╡ bb000002-0002-0002-0002-000000000002
+begin
+    md"""
+    ### Archétypes — Équipe 1
+    $(join([
+        "**$(p.name)** — $(player_archetype(p.name, data, cluster_labels, archetype_names))"
+        for p in barca.player
+    ], "  \n"))
+    """
+end
+
+# ╔═╡ bb000003-0003-0003-0003-000000000003
+begin
+    top200 = data.short_name[1:200]
+    best_team = optimal_squad(top200, dict_formations[433], data)
+    md"""
+    ### Meilleure équipe (4-3-3) parmi les 200 meilleurs joueurs
+    $(join([
+        "**$(p.current_position)**: $(p.name) ($(round(Int, p.initial_rating)))"
+        for p in best_team.player
+    ], "  \n"))
+    """
+end
+
 # ╔═╡ Cell order:
 # ╠═7bb9ca61-2b2d-42af-8205-c19b1389f031
 # ╠═aa000001-0001-0001-0001-000000000001
 # ╠═aa000002-0002-0002-0002-000000000002
+# ╠═bb000001-0001-0001-0001-000000000001
 # ╠═7bd9d0eb-1363-4cf8-8c58-fe3cddfa6834
 # ╠═1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
 # ╠═7c4aa36b-577d-4993-be6f-6d12614e3e67
@@ -177,3 +207,5 @@ md" Score équipe 2: $score2"
 # ╠═624ca9cf-ecc9-401b-98ce-19a894da6131
 # ╠═d94ddfbf-da6e-4d8f-b886-01bb9947163f
 # ╠═b9bce6c2-2759-41c9-b7ab-1fcb311c2acd
+# ╠═bb000002-0002-0002-0002-000000000002
+# ╠═bb000003-0003-0003-0003-000000000003
