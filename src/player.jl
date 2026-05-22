@@ -61,6 +61,11 @@ function calcul_team_score(team::Team)
     return sum(rate) / length(rate)
 end
 
+_pitch_label(name::String) = begin
+    label = let m = match(r"^[A-Z]\.\s+(.+)$", name); m !== nothing ? m.captures[1] : name end
+    length(label) > 11 ? label[1:11] * "." : label
+end
+
 function creation_formation(form::Formation, side::Int64, team::Team)
     i = 0
     if side == 1
@@ -70,12 +75,12 @@ function creation_formation(form::Formation, side::Int64, team::Team)
     end
 
     players = S(:fill => col)*Rectangle(w=4, h=4, c=dict_postes["GK"].coordonnees*i) +
-              S(:fill => :black)*TextMark(text=team.player[1].name, fontsize=3, pos=dict_postes["GK"].coordonnees*i + i*[0,5]) +
+              S(:fill => :black)*TextMark(text=_pitch_label(team.player[1].name), fontsize=2.5, pos=dict_postes["GK"].coordonnees*i + i*[0,6]) +
               S(:fill => :white)*TextMark(text=1, fontsize=3, pos=dict_postes["GK"].coordonnees*i)
     num = 2
     for j in form.postes
         rect = S(:fill => col)*Rectangle(w=4, h=4, c=dict_postes[j].coordonnees*i)
-        text = S(:fill => :black)*TextMark(text=team.player[num].name, fontsize=3, pos=dict_postes[j].coordonnees*i + i*[0, -5]) +
+        text = S(:fill => :black)*TextMark(text=_pitch_label(team.player[num].name), fontsize=2.5, pos=dict_postes[j].coordonnees*i + i*[0, -6]) +
                S(:fill => :white)*TextMark(text=num, fontsize=3, pos=dict_postes[j].coordonnees*i)
         players += rect + text
         num += 1

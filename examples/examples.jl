@@ -39,6 +39,20 @@ md"""
 Build two squads, compare them head-to-head, and explore data-driven archetypes, position fit scores, and similarity search.
 """
 
+# ╔═╡ dd000002-0002-0002-0002-000000000002
+md"""
+---
+## How It Works
+
+| Feature | Method | What it tells you |
+|---------|--------|-------------------|
+| **Position Fit Score** | Weighted dot product of a player's normalised attributes against a position-specific profile (e.g. GK weights goalkeeping; ST weights shooting/pace) | 0–1 score: how well a player suits a given slot |
+| **Player Archetype** | K-means clustering (k=6) in 6D attribute space (pace · shooting · passing · dribbling · defending · physic) across all 19k players | Unsupervised label: which style of player they are |
+| **Similarity Search** | Euclidean nearest-neighbour in the same normalised 6D space | Find the *n* most statistically similar players to any target |
+| **Optimal XI** | Greedy assignment: for each position slot, pick the available player with the highest `position_fit_score × overall` | Data-driven best-11 from any pool |
+| **Team Score** | Average position-adjusted overall rating — penalises players out of position | Comparable strength metric across different squads |
+"""
+
 # ╔═╡ 1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
 md"""
 ---
@@ -145,6 +159,7 @@ end
 # ╠═7bb9ca61-2b2d-42af-8205-c19b1389f031
 # ╠═aa000001-0001-0001-0001-000000000001
 # ╟─cc000001-0001-0001-0001-000000000001
+# ╟─dd000002-0002-0002-0002-000000000002
 # ╟─1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
 # ╠═7c4aa36b-577d-4993-be6f-6d12614e3e67
 # ╟─298808b1-9ffc-4431-8c4f-746ab28c419c
