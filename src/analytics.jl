@@ -90,5 +90,6 @@ end
 function player_archetype(name::String, df::DataFrame, labels::Vector{Int}, archetype_names::Vector{String})::String
     idx = findfirst(==(name), df.short_name)
     isnothing(idx) && return "Unknown"
+    startswith(String(df[idx, :player_positions]), "GK") && return "Goalkeeper"
     return archetype_names[labels[idx]]
 end

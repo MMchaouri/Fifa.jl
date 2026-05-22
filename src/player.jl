@@ -85,9 +85,12 @@ end
 
 const _SLOT_POSITIONS = ["GK", "CB", "LB", "RB", "CDM", "CM", "LM", "RM", "LW", "ST", "RW"]
 
-function _default_player(df::DataFrame, pos::String, skip::Int)
-    matches = filter(r -> contains(String(r.player_positions), pos), df)
-    isempty(matches) && return String(df[1, :short_name])
+function _default_player(df::DataFrame, pos::String, skip::Int, used::Set{String})
+    matches = filter(r -> contains(String(r.player_positions), pos) && !(String(r.short_name) in used), df)
+    if isempty(matches)
+        fallback = filter(r -> !(String(r.short_name) in used), df)
+        return String(fallback[min(skip + 1, nrow(fallback)), :short_name])
+    end
     return String(matches[min(skip + 1, nrow(matches)), :short_name])
 end
 
@@ -108,7 +111,12 @@ end
 function player_input(df::DataFrame, team::Int=1)
     skip = team - 1
     options = String.(df.short_name[1:200])
-    defaults = [_default_player(df, pos, skip) for pos in _SLOT_POSITIONS]
+    used = Set{String}()
+    defaults = map(_SLOT_POSITIONS) do pos
+        d = _default_player(df, pos, skip, used)
+        push!(used, d)
+        d
+    end
     return PlutoUI.combine() do Child
         inputs = [
             md""" $(name): $(Child(name, Select(options, default=def)))"""
