@@ -92,29 +92,21 @@ md"""
 # ╔═╡ ff000001-0001-0001-0001-000000000001
 begin
     arch1_lines = join(
-        ["- **$(p.name)** ($(p.current_position)) — *$(player_archetype(p.name, data, cluster_labels, archetype_names))*  fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
+        ["- **$(p.name)** ($(p.current_position)) — *$(player_archetype(p.name, data, cluster_labels, archetype_names))* · fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
          for p in barca.player],
         "\n"
     )
-    md"""
-    ---
-    ## Archetypes & Position Fit — Team 1
-    $arch1_lines
-    """
+    Markdown.parse("---\n## Archetypes & Position Fit — Team 1\n$arch1_lines")
 end
 
 # ╔═╡ ff000002-0002-0002-0002-000000000002
 begin
     arch2_lines = join(
-        ["- **$(p.name)** ($(p.current_position)) — *$(player_archetype(p.name, data, cluster_labels, archetype_names))*  fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
+        ["- **$(p.name)** ($(p.current_position)) — *$(player_archetype(p.name, data, cluster_labels, archetype_names))* · fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
          for p in real.player],
         "\n"
     )
-    md"""
-    ---
-    ## Archetypes & Position Fit — Team 2
-    $arch2_lines
-    """
+    Markdown.parse("---\n## Archetypes & Position Fit — Team 2\n$arch2_lines")
 end
 
 # ╔═╡ aa000002-0002-0002-0002-000000000002
@@ -128,17 +120,13 @@ Find the *n* most similar players to any target in normalized attribute space.
 
 # ╔═╡ aa000003-0003-0003-0003-000000000003
 begin
-    sim_df   = find_similar_players(sim_target, data, 5)
+    sim_df   = find_similar_players(sim_target, data[1:1000, :], 5)
     sim_rows = join(
         ["- **$(String(r.short_name))** ($(String(r.player_positions))) — overall $(r.overall)"
          for r in eachrow(sim_df)],
         "\n"
     )
-    md"""
-    **5 players most similar to $(sim_target):**
-
-    $sim_rows
-    """
+    Markdown.parse("**5 players most similar to $sim_target:**\n\n$sim_rows")
 end
 
 # ╔═╡ bb000003-0003-0003-0003-000000000003
@@ -146,17 +134,11 @@ begin
     top200    = data.short_name[1:200]
     best_team = optimal_squad(top200, dict_formations[433], data)
     best_lines = join(
-        ["- **$(p.current_position)**: $(p.name) — overall $(round(Int, p.initial_rating))  fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
+        ["- **$(p.current_position)**: $(p.name) — overall $(round(Int, p.initial_rating)) · fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
          for p in best_team.player],
         "\n"
     )
-    md"""
-    ---
-    ## Optimal XI (4-3-3) · Top 200 Players
-    > Greedy assignment maximising `position_fit_score × overall` per slot.
-
-    $best_lines
-    """
+    Markdown.parse("---\n## Optimal XI (4-3-3) · Top 200 Players\n> Greedy assignment: maximises `position_fit_score × overall` per slot.\n\n$best_lines")
 end
 
 # ╔═╡ Cell order:
