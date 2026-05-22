@@ -12,12 +12,12 @@ Built in high-performance Julia for reproducible, interpretable sports AI.
 
 ## Features
 
-- **Interactive pitch visualization** - render any formation on an SVG football pitch via [Vizagrams.jl](https://github.com/davibarreira/Vizagrams.jl) and [Pluto.jl](https://plutojl.org) reactive notebooks
-- **Position fit scoring** - interpretable suitability model using position-specific attribute weight vectors across 50+ FIFA features (pace, shooting, passing, dribbling, defending, physic, goalkeeping) for all 24 positions
-- **Unsupervised player clustering** - k-means clustering in normalized 6D attribute space to discover latent player archetypes (Pacey Attacker, Clinical Finisher, Defensive Rock, etc.) across the full dataset
+- **Interactive pitch visualization** - render any formation on an SVG football pitch via [Vizagrams.jl](https://github.com/davibarreira/Vizagrams.jl) and [Pluto.jl](https://plutojl.org) reactive notebooks.
+- **Position fit scoring** - interpretable suitability model using position-specific attribute weight vectors across 50+ FIFA features (pace, shooting, passing, dribbling, defending, physic, goalkeeping) for all 24 positions.
+- **Unsupervised player clustering** - k-means clustering in normalized 6D attribute space to discover latent player archetypes (Pacey Attacker, Clinical Finisher, Defensive Rock, etc.) across the full dataset.
 - **Similarity & retrieval** - find the *n* most similar players to any target using Euclidean nearest-neighbour search in feature space
-- **Optimal squad builder** - formation-aware greedy assignment algorithm maximising position-fit-weighted overall rating across any player pool
-- **Formation comparison** - visualize and score two custom squads head-to-head with data-driven team strength metrics
+- **Optimal squad builder** - formation-aware greedy assignment algorithm maximising position-fit-weighted overall rating across any player pool.
+- **Formation comparison** - visualize and score two custom squads head-to-head with data-driven team strength metrics.
 
 ---
 
