@@ -5,21 +5,22 @@ using DataFrames
 function make_test_df()
     DataFrame(
         short_name = ["Striker A", "Keeper B", "Defender C", "Winger D", "Midfielder E",
-                      "Striker F", "Keeper G", "Defender H", "Winger I", "Midfielder J"],
-        overall = [85, 82, 80, 78, 77, 75, 73, 72, 70, 68],
-        player_positions = ["ST", "GK", "CB", "LW", "CM", "ST", "GK", "CB", "RW", "CDM"],
-        pace       = [90, 40, 50, 88, 65, 85, 38, 52, 86, 60],
-        shooting   = [88, 15, 25, 70, 60, 82, 12, 22, 68, 55],
-        passing    = [70, 55, 60, 72, 80, 65, 50, 58, 70, 78],
-        dribbling  = [80, 30, 45, 85, 70, 75, 28, 42, 82, 65],
-        defending  = [30, 45, 85, 35, 65, 28, 42, 88, 32, 72],
-        physic     = [75, 70, 80, 65, 72, 72, 68, 82, 62, 70],
-        goalkeeping_diving      = [10, 82, 10, 10, 10, 10, 80, 10, 10, 10],
-        goalkeeping_handling    = [10, 80, 10, 10, 10, 10, 78, 10, 10, 10],
-        goalkeeping_kicking     = [10, 75, 10, 10, 10, 10, 73, 10, 10, 10],
-        goalkeeping_positioning = [10, 82, 10, 10, 10, 10, 80, 10, 10, 10],
-        goalkeeping_reflexes    = [10, 84, 10, 10, 10, 10, 82, 10, 10, 10],
-        goalkeeping_speed       = [10, 50, 10, 10, 10, 10, 48, 10, 10, 10]
+                      "Striker F", "Keeper G", "Defender H", "Winger I", "Midfielder J",
+                      "Fullback K"],
+        overall = [85, 82, 80, 78, 77, 75, 73, 72, 70, 68, 66],
+        player_positions = ["ST", "GK", "CB", "LW", "CM", "ST", "GK", "CB", "RW", "CDM", "LB"],
+        pace       = [90, 40, 50, 88, 65, 85, 38, 52, 86, 60, 78],
+        shooting   = [88, 15, 25, 70, 60, 82, 12, 22, 68, 55, 30],
+        passing    = [70, 55, 60, 72, 80, 65, 50, 58, 70, 78, 65],
+        dribbling  = [80, 30, 45, 85, 70, 75, 28, 42, 82, 65, 60],
+        defending  = [30, 45, 85, 35, 65, 28, 42, 88, 32, 72, 80],
+        physic     = [75, 70, 80, 65, 72, 72, 68, 82, 62, 70, 74],
+        goalkeeping_diving      = [10, 82, 10, 10, 10, 10, 80, 10, 10, 10, 10],
+        goalkeeping_handling    = [10, 80, 10, 10, 10, 10, 78, 10, 10, 10, 10],
+        goalkeeping_kicking     = [10, 75, 10, 10, 10, 10, 73, 10, 10, 10, 10],
+        goalkeeping_positioning = [10, 82, 10, 10, 10, 10, 80, 10, 10, 10, 10],
+        goalkeeping_reflexes    = [10, 84, 10, 10, 10, 10, 82, 10, 10, 10, 10],
+        goalkeeping_speed       = [10, 50, 10, 10, 10, 10, 48, 10, 10, 10, 10]
     )
 end
 
