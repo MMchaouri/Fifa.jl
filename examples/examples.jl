@@ -21,6 +21,7 @@ begin
     import Pkg
     Pkg.activate(joinpath(@__DIR__, ".."))
     using Fifa
+    using PlutoUI
 end
 
 # ╔═╡ aa000001-0001-0001-0001-000000000001
@@ -35,13 +36,13 @@ begin
 end
 
 # ╔═╡ 1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
-md" Formation équipe 1 :  $(@bind form1_input Select([0, 442, 433, 4231, 222, 111], default=442))"
+md" Team 1 formation: $(@bind form1_input Select([0, 442, 433, 4231, 222, 111], default=442))"
 
 # ╔═╡ 7c4aa36b-577d-4993-be6f-6d12614e3e67
 @bind team1 player_input(data)
 
 # ╔═╡ 298808b1-9ffc-4431-8c4f-746ab28c419c
-md" Formation équipe 2 :  $(@bind form2_input Select([0, 442, 433, 4231, 222, 111], default=442))"
+md" Team 2 formation: $(@bind form2_input Select([0, 442, 433, 4231, 222, 111], default=442))"
 
 # ╔═╡ 624ca9cf-ecc9-401b-98ce-19a894da6131
 @bind team2 player_input(data)
@@ -171,15 +172,15 @@ end
 draw(terrain, 500, dict_formations[form1_input], barca, dict_formations[form2_input], real )
 
 # ╔═╡ 323aad99-7e5e-40ba-9cc6-8db240a2f4d6
-md" Score équipe 1: $score1"
+md" Team 1 score: $score1"
 
 # ╔═╡ d94ddfbf-da6e-4d8f-b886-01bb9947163f
-md" Score équipe 2: $score2"
+md" Team 2 score: $score2"
 
 # ╔═╡ bb000002-0002-0002-0002-000000000002
 begin
     md"""
-    ### Archétypes — Équipe 1
+    ### Archetypes — Team 1
     $(join([
         "**$(p.name)** — $(player_archetype(p.name, data, cluster_labels, archetype_names))"
         for p in barca.player
@@ -192,7 +193,7 @@ begin
     top200 = data.short_name[1:200]
     best_team = optimal_squad(top200, dict_formations[433], data)
     md"""
-    ### Meilleure équipe (4-3-3) parmi les 200 meilleurs joueurs
+    ### Best XI (4-3-3) from the top 200 players
     $(join([
         "**$(p.current_position)**: $(p.name) ($(round(Int, p.initial_rating)))"
         for p in best_team.player
