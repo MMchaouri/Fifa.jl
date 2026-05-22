@@ -4,7 +4,7 @@
 [![Julia 1.10](https://img.shields.io/badge/Julia-1.10-blue.svg)](https://julialang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Fifa.jl** is a Julia sports analytics library for end-to-end football squad intelligence using the FIFA 22 player dataset. It combines interactive data visualization with a full ML pipeline — multi-attribute position fit modeling, unsupervised player archetype discovery via k-means clustering, nearest-neighbour similarity retrieval, and combinatorial squad optimization — all on 19,000+ player records.
+**Fifa.jl** is a Julia sports analytics library for data-driven football squad analysis using the FIFA 22 player dataset. It combines interactive data visualization with a full ML pipeline, multi-attribute position fit modeling, unsupervised player archetype discovery via k-means clustering, nearest-neighbour similarity retrieval, and combinatorial squad optimization - all on 19,000+ player records.
 
 Built in high-performance Julia for reproducible, interpretable sports AI.
 
