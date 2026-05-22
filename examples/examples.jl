@@ -29,10 +29,10 @@ begin
     data = load_data(joinpath(@__DIR__, "..", "data", "players_22.csv"))
     terrain = Terrain(90, 120, 16)
     cluster_labels, archetype_names = cluster_players(data)
-    md"**Dataset loaded** — $(nrow(data)) players · archetypes discovered: $(join(unique(archetype_names), \", \"))"
+    md"**Dataset loaded** — $(size(data, 1)) players · archetypes: $(join(unique(archetype_names), \", \"))"
 end
 
-# ╔═╡ header-cell
+# ╔═╡ cc000001-0001-0001-0001-000000000001
 md"""
 # ⚽ FIFA 22 Squad Analytics
 
@@ -68,16 +68,16 @@ begin
     md"Teams built ✓"
 end
 
-# ╔═╡ 7bd9d0eb-1363-4cf8-8c58-fe3cddfa6834
+# ╔═╡ dd000001-0001-0001-0001-000000000001
 md"""
 ---
 ## Pitch View
 """
 
-# ╔═╡ pitch-draw
+# ╔═╡ 7bd9d0eb-1363-4cf8-8c58-fe3cddfa6834
 draw(terrain, 500, dict_formations[form1_input], barca, dict_formations[form2_input], real)
 
-# ╔═╡ scores-cell
+# ╔═╡ ee000001-0001-0001-0001-000000000001
 md"""
 ---
 ## Scores
@@ -108,14 +108,14 @@ end
 # ╔═╡ Cell order:
 # ╠═7bb9ca61-2b2d-42af-8205-c19b1389f031
 # ╠═aa000001-0001-0001-0001-000000000001
-# ╟─header-cell
+# ╟─cc000001-0001-0001-0001-000000000001
 # ╟─1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
 # ╠═7c4aa36b-577d-4993-be6f-6d12614e3e67
 # ╟─298808b1-9ffc-4431-8c4f-746ab28c419c
 # ╠═624ca9cf-ecc9-401b-98ce-19a894da6131
 # ╟─b9bce6c2-2759-41c9-b7ab-1fcb311c2acd
-# ╟─7bd9d0eb-1363-4cf8-8c58-fe3cddfa6834
-# ╠═pitch-draw
-# ╟─scores-cell
+# ╟─dd000001-0001-0001-0001-000000000001
+# ╠═7bd9d0eb-1363-4cf8-8c58-fe3cddfa6834
+# ╟─ee000001-0001-0001-0001-000000000001
 # ╠═bb000002-0002-0002-0002-000000000002
 # ╠═bb000003-0003-0003-0003-000000000003
