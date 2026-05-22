@@ -51,3 +51,7 @@ function creation_terrain(terrain::Terrain)
 
     return pelouse + central + surface + coin + limitation
 end
+
+function Vizagrams.draw(terr::Terrain, h::Int64, form1::Formation, team1::Team, form2::Formation, team2::Team)
+    draw(creation_terrain(terr) + creation_formation(form1, 1, team1) + creation_formation(form2, 2, team2), height=h)
+end

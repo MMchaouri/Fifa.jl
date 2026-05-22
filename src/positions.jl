@@ -1,5 +1,3 @@
-using DataFrames
-
 struct Position
     nom::String
     coordonnees::Vector{Float64}
@@ -40,7 +38,7 @@ const dict_formations = Dict{Int64, Formation}(
     433  => Formation(433, ["LB", "LCB", "RCB", "RB", "CDM", "LCM", "RCM", "LW", "RW", "ST"]),
     4231 => Formation(4231, ["LB", "LCB", "RCB", "RB", "LCM", "RCM", "CAM", "LW", "RW", "ST"]),
     111  => Formation(111, ["CM", "RCM", "CAM", "LM", "RM", "LW", "RW", "LCF", "RCF", "ST"]),
-    222  => Formation(0,   ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB", "CDM", "LCM", "CM"])
+    222  => Formation(222, ["LB", "LCB", "CB", "RCB", "RB", "LWB", "RWB", "CDM", "LCM", "CM"])
 )
 
 const POSITION_CATEGORIES = Dict(

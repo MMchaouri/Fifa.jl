@@ -12,8 +12,8 @@ export dict_postes, dict_formations, POSITION_GROUPS, POSITION_CATEGORIES
 export position_fit_score, cluster_players, find_similar_players, player_archetype
 export optimal_squad
 
-include("player.jl")     # defines Player, Team, Formation — must be before positions.jl
-include("positions.jl")  # references Formation
+include("player.jl")
+include("positions.jl")
 include("pitch.jl")
 include("data.jl")
 include("analytics.jl")
