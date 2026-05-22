@@ -1,21 +1,22 @@
 module Fifa
 
-using Vizagrams, Colors, PlutoUI, CSV, DataFrames, Markdown, InteractiveUtils
+using Vizagrams, Colors, PlutoUI, CSV, DataFrames, Markdown, InteractiveUtils, Statistics, Clustering
 
-export Terrain
-export creation_terrain
-export Player
-export adjust_rating
-export find_player_by_name
-export Team
-export calcul_team_score
-export Formation
-export creation_formation
-export player_input
-export find_position_category
+export load_data
+export Terrain, creation_terrain
+export Player, adjust_rating, find_player_by_name
+export Team, calcul_team_score
+export Formation, creation_formation
+export player_input, find_position_category
+export dict_postes, dict_formations, POSITION_GROUPS, POSITION_CATEGORIES
+export position_fit_score, cluster_players, find_similar_players, player_archetype
+export optimal_squad
 
-# Write your package code here.
-include("fonctions.jl")
-include("outils.jl")
+include("player.jl")     # defines Player, Team, Formation — must be before positions.jl
+include("positions.jl")  # references Formation
+include("pitch.jl")
+include("data.jl")
+include("analytics.jl")
+include("optimization.jl")
 
 end
