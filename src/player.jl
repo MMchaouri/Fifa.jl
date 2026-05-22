@@ -5,6 +5,12 @@ struct Player
     initial_rating::Float64
     preferred_position::String
     current_position::String
+    Player(name, rating, pref_pos, cur_pos) = new(
+        String(name),
+        isa(rating, Number) ? Float64(rating) : parse(Float64, string(rating)),
+        String(pref_pos),
+        String(cur_pos)
+    )
 end
 
 struct Team

@@ -1,5 +1,7 @@
 using DataFrames, Statistics, Clustering
 
+_to_f64(x) = isa(x, Number) ? Float64(x) : something(tryparse(Float64, string(x)), 0.0)
+
 const CORE_ATTRS = [:pace, :shooting, :passing, :dribbling, :defending, :physic]
 const GK_ATTRS   = [:goalkeeping_diving, :goalkeeping_handling, :goalkeeping_kicking,
                     :goalkeeping_positioning, :goalkeeping_reflexes]
@@ -41,17 +43,17 @@ const ATTR_ARCHETYPE_NAMES = Dict(
 
 function position_fit_score(player_row::DataFrameRow, position::String)::Float64
     if position == "GK"
-        vals = [Float64(coalesce(player_row[c], 0)) for c in GK_ATTRS]
+        vals = [_to_f64(coalesce(player_row[c], 0)) for c in GK_ATTRS]
         return mean(vals) / 100.0
     end
     weights = get(POSITION_ATTR_WEIGHTS, position, fill(1.0/6.0, 6))
-    attrs = [Float64(coalesce(player_row[c], 0)) for c in CORE_ATTRS]
+    attrs = [_to_f64(coalesce(player_row[c], 0)) for c in CORE_ATTRS]
     return sum(w * a for (w, a) in zip(weights, attrs)) / 100.0
 end
 
 function cluster_players(df::DataFrame, k::Int=6)
     k <= nrow(df) || error("k ($k) cannot exceed number of players ($(nrow(df)))")
-    attrs = [Float64(coalesce(df[i, c], 0)) for i in 1:nrow(df), c in CORE_ATTRS]
+    attrs = [_to_f64(coalesce(df[i, c], 0)) for i in 1:nrow(df), c in CORE_ATTRS]
     col_min = minimum(attrs, dims=1)
     col_max = maximum(attrs, dims=1)
     col_range = col_max .- col_min
@@ -75,7 +77,7 @@ function find_similar_players(name::String, df::DataFrame, n::Int=5)::DataFrame
     isnothing(idx) && error("Player '$name' not found")
     n = min(n, nrow(df) - 1)
 
-    attrs = [Float64(coalesce(df[i, c], 0)) for i in 1:nrow(df), c in CORE_ATTRS]
+    attrs = [_to_f64(coalesce(df[i, c], 0)) for i in 1:nrow(df), c in CORE_ATTRS]
     target = attrs[idx, :]
     dists = [sqrt(sum((attrs[i, :] .- target).^2)) for i in 1:nrow(df)]
     dists[idx] = Inf
