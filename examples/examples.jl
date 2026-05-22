@@ -36,7 +36,7 @@ end
 md"""
 # ⚽ FIFA 22 Squad Analytics
 
-Build two squads, compare them head-to-head, and see data-driven archetypes and position fit scores.
+Build two squads, compare them head-to-head, and explore data-driven archetypes, position fit scores, and similarity search.
 """
 
 # ╔═╡ 1b4d32d5-b3d3-44ff-a0c1-1a9577436ccd
@@ -61,11 +61,11 @@ md"""
 
 # ╔═╡ b9bce6c2-2759-41c9-b7ab-1fcb311c2acd
 begin
-    barca = build_team("Team 1", team1, dict_formations[form1_input], data)
-    real  = build_team("Team 2", team2, dict_formations[form2_input], data)
+    barca  = build_team("Team 1", team1, dict_formations[form1_input], data)
+    real   = build_team("Team 2", team2, dict_formations[form2_input], data)
     score1 = round(calcul_team_score(barca), digits=2)
     score2 = round(calcul_team_score(real),  digits=2)
-    md"Teams built ✓"
+    nothing
 end
 
 # ╔═╡ dd000001-0001-0001-0001-000000000001
@@ -80,28 +80,82 @@ draw(terrain, 500, dict_formations[form1_input], barca, dict_formations[form2_in
 # ╔═╡ ee000001-0001-0001-0001-000000000001
 md"""
 ---
-## Scores
-| Team | Score |
-|------|-------|
-| **$(barca.name)** | $score1 |
-| **$(real.name)**  | $score2 |
+## Head-to-Head Scores
+| Team | Formation | Score |
+|------|-----------|-------|
+| **$(barca.name)** | $(form1_input) | $score1 |
+| **$(real.name)**  | $(form2_input) | $score2 |
+
+> Score = average position-adjusted player rating across all 11 slots.
 """
 
-# ╔═╡ bb000002-0002-0002-0002-000000000002
+# ╔═╡ ff000001-0001-0001-0001-000000000001
+begin
+    arch1_lines = join(
+        ["- **$(p.name)** ($(p.current_position)) — *$(player_archetype(p.name, data, cluster_labels, archetype_names))*  fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
+         for p in barca.player],
+        "\n"
+    )
+    md"""
+    ---
+    ## Archetypes & Position Fit — Team 1
+    $arch1_lines
+    """
+end
+
+# ╔═╡ ff000002-0002-0002-0002-000000000002
+begin
+    arch2_lines = join(
+        ["- **$(p.name)** ($(p.current_position)) — *$(player_archetype(p.name, data, cluster_labels, archetype_names))*  fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
+         for p in real.player],
+        "\n"
+    )
+    md"""
+    ---
+    ## Archetypes & Position Fit — Team 2
+    $arch2_lines
+    """
+end
+
+# ╔═╡ aa000002-0002-0002-0002-000000000002
 md"""
 ---
-## Archetypes — Team 1
-$(let lines = join(["**$(p.name)** — $(player_archetype(p.name, data, cluster_labels, archetype_names))" for p in barca.player], "  \n"); lines end)
+## Similarity Search
+Find the *n* most similar players to any target in normalized attribute space.
+
+**Player:** $(@bind sim_target Select(String.(data.short_name[1:200]), default="L. Messi"))
 """
+
+# ╔═╡ aa000003-0003-0003-0003-000000000003
+begin
+    sim_df   = find_similar_players(sim_target, data, 5)
+    sim_rows = join(
+        ["- **$(String(r.short_name))** ($(String(r.player_positions))) — overall $(r.overall)"
+         for r in eachrow(sim_df)],
+        "\n"
+    )
+    md"""
+    **5 players most similar to $(sim_target):**
+
+    $sim_rows
+    """
+end
 
 # ╔═╡ bb000003-0003-0003-0003-000000000003
 begin
     top200    = data.short_name[1:200]
     best_team = optimal_squad(top200, dict_formations[433], data)
+    best_lines = join(
+        ["- **$(p.current_position)**: $(p.name) — overall $(round(Int, p.initial_rating))  fit: $(round(position_fit_score(data[findfirst(==(p.name), String.(data.short_name)), :], p.current_position), digits=2))"
+         for p in best_team.player],
+        "\n"
+    )
     md"""
     ---
     ## Optimal XI (4-3-3) · Top 200 Players
-    $(join(["**$(p.current_position)**: $(p.name) ($(round(Int, p.initial_rating)))" for p in best_team.player], "  \n"))
+    > Greedy assignment maximising `position_fit_score × overall` per slot.
+
+    $best_lines
     """
 end
 
@@ -117,5 +171,8 @@ end
 # ╟─dd000001-0001-0001-0001-000000000001
 # ╠═7bd9d0eb-1363-4cf8-8c58-fe3cddfa6834
 # ╟─ee000001-0001-0001-0001-000000000001
-# ╠═bb000002-0002-0002-0002-000000000002
+# ╠═ff000001-0001-0001-0001-000000000001
+# ╠═ff000002-0002-0002-0002-000000000002
+# ╟─aa000002-0002-0002-0002-000000000002
+# ╠═aa000003-0003-0003-0003-000000000003
 # ╠═bb000003-0003-0003-0003-000000000003
