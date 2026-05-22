@@ -6,7 +6,6 @@ const GK_ATTRS   = [:goalkeeping_diving, :goalkeeping_handling, :goalkeeping_kic
 
 # Weights: [pace, shooting, passing, dribbling, defending, physic]
 const POSITION_ATTR_WEIGHTS = Dict{String, Vector{Float64}}(
-    "GK"   => [0.05, 0.00, 0.05, 0.00, 0.10, 0.15],
     "CB"   => [0.10, 0.05, 0.15, 0.05, 0.50, 0.15],
     "LCB"  => [0.10, 0.05, 0.15, 0.05, 0.50, 0.15],
     "RCB"  => [0.10, 0.05, 0.15, 0.05, 0.50, 0.15],
@@ -32,12 +31,12 @@ const POSITION_ATTR_WEIGHTS = Dict{String, Vector{Float64}}(
 )
 
 const ATTR_ARCHETYPE_NAMES = Dict(
-    1 => "Pacey Attacker",
-    2 => "Clinical Finisher",
-    3 => "Deep-Lying Playmaker",
-    4 => "Technical Dribbler",
-    5 => "Defensive Rock",
-    6 => "Physical Enforcer"
+    :pace      => "Pacey Attacker",
+    :shooting  => "Clinical Finisher",
+    :passing   => "Deep-Lying Playmaker",
+    :dribbling => "Technical Dribbler",
+    :defending => "Defensive Rock",
+    :physic    => "Physical Enforcer"
 )
 
 function position_fit_score(player_row::DataFrameRow, position::String)::Float64
@@ -51,6 +50,7 @@ function position_fit_score(player_row::DataFrameRow, position::String)::Float64
 end
 
 function cluster_players(df::DataFrame, k::Int=6)
+    k <= nrow(df) || error("k ($k) cannot exceed number of players ($(nrow(df)))")
     attrs = [Float64(coalesce(df[i, c], 0)) for i in 1:nrow(df), c in CORE_ATTRS]
     col_min = minimum(attrs, dims=1)
     col_max = maximum(attrs, dims=1)
@@ -63,7 +63,7 @@ function cluster_players(df::DataFrame, k::Int=6)
 
     centers = result.centers'                        # k × 6
     archetype_names = [
-        ATTR_ARCHETYPE_NAMES[argmax(centers[i, :])]
+        ATTR_ARCHETYPE_NAMES[CORE_ATTRS[argmax(centers[i, :])]]
         for i in 1:k
     ]
 
@@ -73,6 +73,7 @@ end
 function find_similar_players(name::String, df::DataFrame, n::Int=5)::DataFrame
     idx = findfirst(==(name), df.short_name)
     isnothing(idx) && error("Player '$name' not found")
+    n = min(n, nrow(df) - 1)
 
     attrs = [Float64(coalesce(df[i, c], 0)) for i in 1:nrow(df), c in CORE_ATTRS]
     target = attrs[idx, :]

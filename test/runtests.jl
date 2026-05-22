@@ -55,6 +55,9 @@ end
         result = find_similar_players("Striker A", df, 3)
         @test nrow(result) == 3
         @test !("Striker A" in result.short_name)
+        # Striker F is the most similar to Striker A (same archetype, close stats)
+        result1 = find_similar_players("Striker A", df, 1)
+        @test result1.short_name[1] == "Striker F"
     end
 
     @testset "cluster_players" begin
