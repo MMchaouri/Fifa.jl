@@ -1,23 +1,23 @@
-# Fifa.jl — FIFA 22 Sports Analytics Toolkit
+# Fifa.jl - FIFA 22 Sports Analytics Toolkit
 
 [![Build Status](https://github.com/MMchaouri/Fifa.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/MMchaouri/Fifa.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Julia 1.10](https://img.shields.io/badge/Julia-1.10-blue.svg)](https://julialang.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**Fifa.jl** is a Julia sports analytics library for exploring, clustering, and optimizing football squads using the FIFA 22 player dataset. It combines interactive pitch visualization with data-driven player analysis — position fit scoring from attribute profiles, unsupervised player archetype discovery, nearest-neighbour similarity search, and formation-aware squad optimization.
+**Fifa.jl** is a Julia sports analytics library for end-to-end football squad intelligence using the FIFA 22 player dataset. It combines interactive data visualization with a full ML pipeline — multi-attribute position fit modeling, unsupervised player archetype discovery via k-means clustering, nearest-neighbour similarity retrieval, and combinatorial squad optimization — all on 19,000+ player records.
 
-Built in Julia for high-performance data processing on 19,000+ player records.
+Built in high-performance Julia for reproducible, interpretable sports AI.
 
 ---
 
 ## Features
 
-- **Interactive pitch visualization** — render any formation on an SVG football pitch via [Vizagrams.jl](https://github.com/davibarreira/Vizagrams.jl) and [Pluto.jl](https://plutojl.org) reactive notebooks
-- **Position fit scoring** — data-driven suitability model using weighted attribute profiles (pace, shooting, passing, dribbling, defending, physic, goalkeeping) for all 24 positions
-- **Player archetype clustering** — unsupervised k-means clustering over the 6 core FIFA attributes to identify latent player archetypes (Pacey Attacker, Clinical Finisher, Defensive Rock, etc.)
-- **Similarity search** — find the *n* most similar players to any player in the dataset using Euclidean distance in normalized attribute space
-- **Optimal squad builder** — greedy assignment algorithm that selects the best 11 players from a pool for a given formation, maximising position-fit-weighted overall rating
-- **Formation comparison** — visualize and score two custom teams head-to-head on the same pitch
+- **Interactive pitch visualization** - render any formation on an SVG football pitch via [Vizagrams.jl](https://github.com/davibarreira/Vizagrams.jl) and [Pluto.jl](https://plutojl.org) reactive notebooks
+- **Position fit scoring** - interpretable suitability model using position-specific attribute weight vectors across 50+ FIFA features (pace, shooting, passing, dribbling, defending, physic, goalkeeping) for all 24 positions
+- **Unsupervised player clustering** - k-means clustering in normalized 6D attribute space to discover latent player archetypes (Pacey Attacker, Clinical Finisher, Defensive Rock, etc.) across the full dataset
+- **Similarity & retrieval** - find the *n* most similar players to any target using Euclidean nearest-neighbour search in feature space
+- **Optimal squad builder** - formation-aware greedy assignment algorithm maximising position-fit-weighted overall rating across any player pool
+- **Formation comparison** - visualize and score two custom squads head-to-head with data-driven team strength metrics
 
 ---
 
@@ -60,7 +60,7 @@ best = optimal_squad(pool, dict_formations[433], df)
 
 ### Position Fit Scoring
 
-Each of the 24 positions maps to a weighted attribute profile over pace, shooting, passing, dribbling, defending, and physic (plus dedicated goalkeeping attributes for GK). A player's fit score at any position is the weighted dot product of their normalized attributes against that profile — replacing arbitrary heuristic penalties with an interpretable, data-grounded measure.
+Each of the 24 positions maps to a weighted attribute profile over pace, shooting, passing, dribbling, defending, and physic (plus dedicated goalkeeping attributes for GK). A player's fit score at any position is the weighted dot product of their normalized attributes against that profile - replacing arbitrary heuristic penalties with an interpretable, data-grounded measure.
 
 ### Player Archetype Discovery
 
@@ -93,10 +93,10 @@ Select players from dropdowns, choose formations, and instantly see:
 
 ## Contributors
 
-Originally co-developed with **Okado Kento** ([@japstok](https://github.com/japstok)) as a Master's university project. Extended, restructured, and published by **M. Mchaouri** — adding the analytics layer (position fit scoring, clustering, similarity search, squad optimization) and package architecture.
+Originally co-developed with **Okado Kento** ([@japstok](https://github.com/japstok)) as a Master's university project. Extended, restructured, and published by **M. Mchaouri** - adding the analytics layer (position fit scoring, clustering, similarity search, squad optimization) and package architecture.
 
 ---
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).
