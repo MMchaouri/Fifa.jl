@@ -65,6 +65,14 @@ end
         @test all(1 .<= labels .<= 3)
     end
 
+    @testset "player_archetype" begin
+        df = make_test_df()
+        labels, archetype_names = cluster_players(df, 3)
+        arch = player_archetype("Striker A", df, labels, archetype_names)
+        @test arch in archetype_names
+        @test player_archetype("nonexistent", df, labels, archetype_names) == "Unknown"
+    end
+
     @testset "optimal_squad" begin
         df = make_test_df()
         pool = df.short_name
