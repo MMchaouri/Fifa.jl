@@ -83,17 +83,37 @@ function creation_formation(form::Formation, side::Int64, team::Team)
     return players
 end
 
-# Bug fix: was player_input(::Vector{String}) — arg was unused; now takes df::DataFrame to populate dropdowns
-function player_input(df::DataFrame)
+const _SLOT_POSITIONS = ["GK", "CB", "LB", "RB", "CDM", "CM", "LM", "RM", "LW", "ST", "RW"]
+
+function _default_player(df::DataFrame, pos::String, skip::Int)
+    matches = filter(r -> contains(String(r.player_positions), pos), df)
+    isempty(matches) && return String(df[1, :short_name])
+    return String(matches[min(skip + 1, nrow(matches)), :short_name])
+end
+
+function build_team(name::String, selections, formation::Formation, df::DataFrame)::Team
+    slots = ["GK"; formation.postes]
+    players = [
+        Player(
+            getfield(selections, Symbol("P$i")),
+            df[findfirst(==(getfield(selections, Symbol("P$i"))), String.(df.short_name)), :overall],
+            df[findfirst(==(getfield(selections, Symbol("P$i"))), String.(df.short_name)), :player_positions],
+            slots[i]
+        )
+        for i in 1:11
+    ]
+    return Team(name, players)
+end
+
+function player_input(df::DataFrame, team::Int=1)
+    skip = team - 1
+    options = String.(df.short_name[1:200])
+    defaults = [_default_player(df, pos, skip) for pos in _SLOT_POSITIONS]
     return PlutoUI.combine() do Child
         inputs = [
-            md""" $(name): $(
-                Child(name, Select(df.short_name[1:100]))
-            )"""
-            for name in ["P1","P2","P3","P4","P5","P6","P7","P8","P9","P10","P11"]
+            md""" $(name): $(Child(name, Select(options, default=def)))"""
+            for (name, def) in zip(["P1","P2","P3","P4","P5","P6","P7","P8","P9","P10","P11"], defaults)
         ]
-        md"""
-        $(inputs)
-        """
+        md"""$(inputs)"""
     end
 end
